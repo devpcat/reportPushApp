@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="gbk"?>
+<ROOT>
+	<mailfromname>[rpaApp]</mailfromname>
+	<MailTo1>xxx@dc.com</MailTo1>
+	<MailTo2>xxx@dc.com</MailTo2>	
+	<MailCc1>xxx@dc.com</MailCc1>
+	<Subject>通用报表平台运行报告[测试环境]</Subject>
+	<Content></Content>
+	<username>username</username>
+	<password>password</password>
+	<smtpaddr>76.34.94.157</smtpaddr>
+	<smtpport>25</smtpport>
+</ROOT>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 数据源配置 -->
+	<environment>
+		<dataSource id="hfms">
+			<property name="driver" value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url" value="jdbc:oracle:thin:@104.6.13.154:1521:cospndb"></property>
+			<property name="username" value="hfms"></property>
+			<property name="password" value="hfms"></property>
+		</dataSource>
+		<dataSource id="dlcosp">
+			<property name="driver" value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url" value="jdbc:oracle:thin:@104.6.13.154:1521:cospndb"></property>
+			<property name="username" value="dlcosp"></property>
+			<property name="password" value="dlcosp"></property>
+		</dataSource>
+		<dataSource id="dlomcp">
+			<property name="driver" value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url" value="jdbc:oracle:thin:@104.6.13.154:1521:cospndb"></property>
+			<property name="username" value="dlomcp"></property>
+			<property name="password" value="dlomcp"></property>
+		</dataSource>
+		<dataSource id="ctp">
+			<property name="driver" value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url"
+				value="jdbc:oracle:thin:@192.168.6.133:1521:cospndb"></property>
+			<property name="username" value="ctp"></property>
+			<property name="password" value="ctp"></property>
+		</dataSource>
+	</environment>
+
+	<!--具体调度配置 -->
+	<statconf>
+		<opertype id="ExportExcel"><!-- 导出excel -->
+			<property name="mailConf" value=""></property><!-- 邮件发送的配置文件路径 -->
+			<property name="fileName" value="公积金联名卡${to_date(yyyy-MM-dd,-1)}.xlsx"></property><!-- 邮件发送的文件名 -->
+			<property name="compress" value="false"></property><!-- 是否进行ZIP压缩 -->
+			<property name="title" value="公积金联名卡邮件-${to_date(yyyy-MM-dd,-1)}"></property><!-- 邮件标题、主题 -->
+			<property name="sheet" value="联名卡全量数据"><!-- 指定sheet的名称 -->
+				<property name="dataSource" value="hfms"></property><!-- 执行查询时的数据源 -->
+				<property name="sql" value="mutitest.sql"></property><!--执行查询的sql语句，配置多条sql直接指定后缀为sql的文件路径 -->
+			</property>
+			<property name="sheet" value="联名卡历史数据"><!-- 指定sheet的名称 -->
+				<property name="dataSource" value="hfms"></property><!-- 执行查询时的数据源 -->
+				<property name="sql" value="select * from lmk_cardinfos t"></property><!--执行查询的sql语句，配置多条sql直接指定后缀为sql的文件路径 -->
+			</property>
+			<property name="hideHeader" value="true#1" />
+			<property name="scheduleRun" value="false"></property><!-- 调度触发条件 -->
+		</opertype>
+
+		<opertype id="ExportExcel2"><!-- 导出excel -->
+			<property name="mailConf" value=""></property><!-- 邮件发送的配置文件路径 -->
+			<property name="fileName"
+				value="test-result-${to_date(yyyy-MM-dd,-1)}.xlsx"></property><!-- 邮件发送的文件名 -->
+			<property name="templateFileName"
+				value="test-template-${to_date(yyyy-MM-dd,-1)}.xlsx"></property>
+			<property name="compress" value="false"></property><!-- 是否进行ZIP压缩 -->
+			<property name="title"
+				value="test-excelExport2-${to_date(yyyy-MM-dd,-1)}"></property><!-- 邮件标题、主题 -->
+			<property name="sheet" value="S1"><!-- 指定sheet的名称 -->
+				<property name="dataSource" value="dltest"></property><!-- 执行查询时的数据源 -->
+				<property name="sql" value="mutitest.sql"></property><!--执行查询的sql语句，配置多条sql直接指定后缀为sql的文件路径 -->
+			</property>
+			<property name="sheet" value="S3">
+				<property name="dataSource" value="dltest"></property>
+				<property name="sql" value="mutitest.sql"></property>
+			</property>
+			<property name="scheduleRun" value="true"></property><!-- 调度触发条件 -->
+		</opertype>
+
+		<opertype id="ExportCsv"><!-- 导出CSV纯文本 -->
+			<property name="mailConf" value=""></property><!-- 邮件发送的配置文件路径 -->
+			<property name="fileName" value="TEST000000${to_date(yyyy-MM-dd,-1)}.csv"></property><!-- 邮件发送的文件名 -->
+			<property name="compress" value="false"></property><!-- 是否进行ZIP压缩 -->
+			<property name="title" value="公积金联名卡邮件-${to_date(yyyy-MM-dd,-1)}"></property><!-- 邮件标题、主题 -->
+			<property name="dataSource" value="hfms"></property><!-- 执行查询时的数据源 -->
+			<property name="sql" value="select * from lmk_cardinfos t"></property><!--执行查询的sql语句，配置多条sql直接指定后缀为sql的文件路径 -->
+			<property name="scheduleRun" value="false"></property><!-- 调度触发条件 -->
+		</opertype>
+
+		<opertype id="ExportText"><!-- 导出TEXT纯文本 -->
+			<property name="mailConf" value=""></property><!-- 邮件发送的配置文件路径 -->
+			<property name="fileName" value="1TEST000000${to_date(yyyy-MM-dd,-1)}"></property><!-- 邮件发送的文件名 -->
+			<property name="compress" value="false"></property><!-- 是否进行ZIP压缩 -->
+			<property name="title" value="邮件-${to_date(yyyy-MM-dd,-1)}"></property><!-- 邮件标题、主题 -->
+			<property name="dataSource" value="hfms"></property><!-- 执行查询时的数据源 -->
+			<property name="sql" value="mutitest2.sql"></property><!--执行查询的sql语句，配置多条sql直接指定后缀为sql的文件路径 -->
+			<property name="separator" value="!block" />
+			<property name="lastSeparator" value="false" />
+			<property name="hideHeader" value="true#-31" />
+			<property name="scheduleRun" value="true"></property><!-- 调度触发条件 -->
+		</opertype>
+
+		<!-- 导出内容直接作为正文 -->
+		<opertype id="mailContext">
+			<property name="dataSource" value="dlcosp"></property><!-- 执行查询时的数据源 -->
+			<property name="sql" value="TEBStat.sql"></property><!--执行查询的sql语句，配置多条sql直接指定后缀为sql的文件路径 -->
+			<property name="hideHeader" value="true#-3"></property><!-- 当执行多条sql时是否为每个sql都加一个标题 -->
+			<property name="mailConf" value="MailConf_TEB.xml"></property><!-- 邮件发送的配置文件路径 -->
+			<property name="title" value="[每天]烟草汇总对账单邮件"></property><!-- 邮件标题、主题 -->
+			<property name="scheduleRun" value="false"></property><!-- 调度触发条件 -->
+		</opertype>
+
+		<opertype id="mailContext"><!-- 导出内容直接作为正文 -->
+			<property name="dataSource" value="hfms"></property><!-- 执行查询时的数据源 -->
+			<property name="sql" value="select * from lmk_cardinfos t"></property><!--执行查询的sql语句，配置多条sql直接指定后缀为sql的文件路径 -->
+			<property name="hideHeader" value="false"></property><!-- 当执行多条sql时是否为每个sql都加一个标题 -->
+			<property name="mailConf" value="config/MailConf.xml"></property><!-- 邮件发送的配置文件路径 -->
+			<property name="title" value="单标题测试-${to_date(yyyy-MM-dd,-1)}"></property><!-- 邮件标题、主题 -->
+			<property name="scheduleRun" value="false"></property><!-- 调度触发条件 -->
+		</opertype>
+		<opertype id="mailContext"><!-- 导出内容直接作为正文 -->
+			<property name="dataSource" value="ctp"></property><!-- 执行查询时的数据源 -->
+			<property name="sql" value="config\\mutitest2.sql"></property><!--执行查询的sql语句，配置多条sql直接指定后缀为sql的文件路径 -->
+			<property name="hideHeader" value="false"></property><!-- 当执行多条sql时是否为每个sql都加一个标题 -->
+			<property name="mailConf" value="config/MailConf.xml"></property><!-- 邮件发送的配置文件路径 -->
+			<property name="title" value="数据统计内容-${to_date(yyyy-MM-dd,-1)}"></property><!-- 邮件标题、主题 -->
+			<property name="scheduleRun" value="false"></property><!-- 调度触发条件 -->
+		</opertype>
+		<opertype id="mailLocalFile"><!--将本地文件作为附件发送 -->
+			<property name="localFile" value="D:\\Debug\\${to_date(yyyyMMdd,-1)}.txt"></property><!-- 本地文件路径（只支持单文件多文件请使用shell提前压缩） -->
+			<property name="mailConf" value="config/MailConf.xml"></property><!-- 邮件发送的配置文件路径 -->
+			<property name="title" value="本地文件附件测试${to_date(yyyy-MM-dd,-1)}"></property><!-- 邮件标题、主题 -->
+			<property name="scheduleRun" value="false"></property><!-- 调度触发条件 -->
+		</opertype>
+
+
+		<opertype id="ftpFile">
+			<property name="title" value="FTP测试"></property>
+			<property name="server" value="104.6.189.201:22"></property>
+			<property name="username" value="gtcg"></property>
+			<property name="password" value="gtcg"></property>
+			<property name="controlEncoding" value=""></property>
+			<property name="transMode" value=""></property><!-- port/pasv;asc/bin -->
+			<property name="put" local="D:\\Material\\技术材料\\提交统计材料\\地址端口统计.xls"
+				remote="dlcosp/j-ii/地址端口统计.xls" ignore="false"></property>
+			<!-- <property name="get" local="C:\\Users\\dlfh-yuc02\\Desktop\\bbb.java"
+				remote="dlcosp/aaa.java" ignore="true"></property> <property name="get" local="C:\\Users\\dlfh-yuc02\\Desktop\\ccc.java"
+				remote="dlcosp/test/key.txt" ignore="true"></property> -->
+			<property name="scheduleRun" value="false"></property>
+		</opertype>
+
+
+		<opertype id="sftpFile">
+			<property name="title" value="SFTP测试"></property>
+			<property name="server" value="104.6.189.201"></property>
+			<property name="username" value="gtcg"></property>
+			<property name="password" value="gtcg"></property>
+			<property name="put"
+				local="C:\\Users\\dlfh-yuc02\\Desktop\\ftpTest.java" remote="dlcos/zzz.java"
+				ignore="true"></property>
+			<property name="get" local="C:\\Users\\dlfh-yuc02\\Desktop\\yyy.java"
+				remote="dlcosp/zzz.java" ignore="true"></property>
+			<property name="get" local="C:\\Users\\dlfh-yuc02\\Desktop\\xxx.java"
+				remote="dlcosp/test/key.txt" ignore="true"></property>
+			<property name="scheduleRun" value="false"></property>
+		</opertype>
+
+
+		<opertype id="zipFile">
+			<property name="title" value="ZIP压缩测试"></property>
+			<property name="outFile" value="C:\\Users\\dlfh-yuc02\\Desktop\\test.zip"></property>
+			<property name="addFile"
+				value="C:\\Users\\dlfh-yuc02\\Desktop\\工商银行沙河口支行大发电采暖费对账明细表（模板） - 副本.xls"
+				ignore="false"></property>
+			<property name="addFile"
+				value="C:\\Users\\dlfh-yuc02\\Desktop\\WriteExcel.java"></property>
+			<property name="scheduleRun" value="false"></property>
+		</opertype>
+
+
+		<opertype id="loadFixedLenFile">
+			<property name="title" value="定长反传文件导入测试" />
+			<property name="dataSource" value="dlomcp" />
+			<property name="propertyFile" value="OMC_ZTRADE_PAY_INFO.properties" />
+			<property name="scheduleRun" value="false" />
+			<property name="restUrl" value="http://127.0.0.1" />
+		</opertype>
+
+
+		<opertype id="LoadSeparatorFile">
+			<property name="title" value="分隔符反传文件导入测试" />
+			<property name="dataSource" value="dlomcp" />
+			<property name="propertyFile" value="test2.properties" />
+			<property name="scheduleRun" value="false" />
+		</opertype>
+
+		<opertype id="CustomizedSql">
+			<property name="title" value="自定义sqlfile"></property>
+			<property name="dataSource" value="hfms"></property>
+			<property name="sql" value="mutitest2.sql"></property>
+			<property name="scheduleRun" value="false"></property>
+		</opertype>
+
+		<opertype id="CustomizedMethod">
+			<property name="title" value="自定义方法"></property>
+			<property name="method"
+				value="com.dc.reflect.PMD_CustMethod.pmd_split_item"></property>
+			<property name="param" value="dlomcp"></property>
+			<property name="scheduleRun" value="false"></property>
+		</opertype>
+
+	</statconf>
+
+	<!-- App系统配置 -->
+	<appconf>
+		<property name="fileBasePath" value="D:/debug"></property>
+		<property name="sendMail" value="false"></property>
+		<property name="passwdEncrypt" value="false"></property>
+		<property name="accessControl"
+			value="52BQeQSxxS/tyEnmpZGP8g==||lsJhH3xdW68kO933qfjYYw=="></property>
+	</appconf>
+</root>

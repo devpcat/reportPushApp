@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 数据源配置 -->
+	<environment>
+		<dataSource id="hfms">
+			<property name="driver"
+				value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url"
+				value="jdbc:oracle:thin:@104.6.13.154:1521:cospndb"></property>
+			<property name="username" value="hfms"></property>
+			<property name="password" value="hfms"></property>
+		</dataSource>
+		<dataSource id="dlcosp">
+			<property name="driver"
+				value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url"
+				value="jdbc:oracle:thin:@104.6.13.154:1521:cospndb"></property>
+			<property name="username" value="dlcosp"></property>
+			<property name="password" value="dlcosp"></property>
+		</dataSource>
+		<dataSource id="dlomcp">
+			<property name="driver"
+				value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url"
+				value="jdbc:oracle:thin:@104.6.13.154:1521:cospndb"></property>
+			<property name="username" value="dlomcp"></property>
+			<property name="password" value="dlomcp"></property>
+		</dataSource>
+		<dataSource id="ctp">
+			<property name="driver"
+				value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url"
+				value="jdbc:oracle:thin:@192.168.6.133:1521:cospndb"></property>
+			<property name="username" value="ctp"></property>
+			<property name="password" value="ctp"></property>
+		</dataSource>
+		<dataSource id="dlctp">
+			<property name="driver"
+				value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url"
+				value="jdbc:oracle:thin:@104.6.13.154:1521:cospndb"></property>
+			<property name="username" value="dlctp"></property>
+			<property name="password" value="dlctp"></property>
+		</dataSource>
+		<dataSource id="dlts">
+			<property name="driver"
+				value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url"
+				value="jdbc:oracle:thin:@104.6.13.154:1521:cospndb"></property>
+			<property name="username" value="dlts"></property>
+			<property name="password" value="dlts"></property>
+		</dataSource>
+		<dataSource id="dlcomp">
+			<property name="driver"
+				value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="url"
+				value="jdbc:oracle:thin:@104.6.13.154:1521:cospndb"></property>
+			<property name="username" value="dlcomp"></property>
+			<property name="password" value="dlcomp"></property>
+		</dataSource>
+		<dataSource id="dltest">
+			<property name="driver" value="com.mysql.cj.jdbc.Driver"></property>
+			<property name="url"
+				value="jdbc:mysql://localhost:3306/ry-vue?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=true&amp;serverTimezone=GMT%2B8"></property>
+			<property name="username" value="root"></property>
+			<property name="password" value="123456"></property>
+		</dataSource>
+	</environment>
+
+	<!--具体调度配置 -->
+	<statconf>
+
+
+
+
+		<!-- <opertype id="LoadSeparatorFile"> <property name="title" value="[每天]揽存个人明细数据导入" 
+			/> <property name="dataSource" value="dlcomp" /> <property name="propertyFile" 
+			value="分隔符导入配置示例.properties" /> <property name="scheduleRun" value="true" 
+			/> </opertype> -->
+
+		<opertype id="LoadSeparatorFile">
+			<property name="title" value="定长反传文件导入测试" />
+			<property name="dataSource" value="dlctp" />
+			<property name="propertyFile"
+				value="dcm_aam_eaam_teller_info_s.properties" />
+			<property name="scheduleRun" value="false" />
+		</opertype>
+
+
+		<opertype id="ExportExcel2"><!-- 导出excel -->
+			<property name="mailConf" value=""></property><!-- 邮件发送的配置文件路径 -->
+			<property name="fileName"
+				value="test-result-${to_date(yyyy-MM-dd,-1)}.xlsx"></property><!-- 邮件发送的文件名 -->
+			<property name="templateFileName"
+				value="test-template-${to_date(yyyy-MM-dd,-1)}.xlsx"></property>
+			<property name="compress" value="false"></property><!-- 是否进行ZIP压缩 -->
+			<property name="title"
+				value="test-excelExport2-${to_date(yyyy-MM-dd,-1)}"></property><!-- 邮件标题、主题 -->
+			<property name="sheet" value="S1"><!-- 指定sheet的名称 -->
+				<property name="dataSource" value="dltest"></property><!-- 执行查询时的数据源 -->
+				<property name="sql" value="mutitest.sql"></property><!--执行查询的sql语句，配置多条sql直接指定后缀为sql的文件路径 -->
+			</property>
+			<property name="sheet" value="S3">
+				<property name="dataSource" value="dltest"></property>
+				<property name="sql" value="mutitest.sql"></property>
+			</property>
+			<property name="scheduleRun" value="true"></property><!-- 调度触发条件 -->
+		</opertype>
+	</statconf>
+
+	<!-- App系统配置 -->
+	<appconf>
+		<property name="fileBasePath" value="D:/debug"></property>
+		<property name="sendMail" value="false"></property>
+		<property name="passwdEncrypt" value="false"></property>
+		<property name="accessControl"
+			value="52BQeQSxxS/tyEnmpZGP8g==||lsJhH3xdW68kO933qfjYYw==||ZjcA3y2edzDXMi0wV+oBBw=="></property>
+	</appconf>
+</root>
